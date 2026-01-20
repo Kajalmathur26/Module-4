@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "id": "1768931839493",
+      "name": "Kajal",
+      "email": "kajal@example.com",
+      "password": "12345",
+      "profilePic": "https://res.cloudinary.com/drxcue3so/image/upload/v1768931839/users/rtrb9cscwvppdvupigu9.jpg"
+    }
+  ]
+}
