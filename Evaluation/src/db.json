@@ -1,0 +1,20 @@
+{
+  "products": [
+    {
+      "id": 1769005915323,
+      "name": "Mobile",
+      "price": 20000,
+      "stock": 15
+    }
+  ],
+  "orders": [
+    {
+      "id": 1769006123468,
+      "productId": 1769005915323,
+      "quantity": 2,
+      "totalAmount": 40000,
+      "status": "cancelled",
+      "createdAt": "2026-01-21"
+    }
+  ]
+}
