@@ -1,0 +1,17 @@
+{
+  "name": "todo-mvc-app",
+  "version": "1.0.0",
+  "description": "Todo Application using MVC architecture with Express and ES Modules",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
