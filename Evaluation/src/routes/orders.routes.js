@@ -42,27 +42,36 @@ router.get("/", (req, res) => {
     res.json(db.orders);
 });
 
-/* 3️⃣ Cancel Order */
+//* 3️⃣ Cancel Order */
 router.delete("/:orderId", (req, res) => {
     const db = readDB();
     const order = db.orders.find(o => o.id == req.params.orderId);
 
     if (!order) return res.status(404).json({ message: "Order not found" });
-    if (order.status === "cancelled")
-        return res.status(400).json({ message: "Already cancelled" });
+
+    // Prevent cancelling already cancelled OR delivered orders
+    if (order.status === "cancelled" || order.status === "delivered") {
+        return res.status(400).json({
+            message: "Cannot cancel delivered or already cancelled order"
+        });
+    }
 
     const today = new Date().toISOString().split("T")[0];
-    if (order.createdAt !== today)
-        return res.status(400).json({ message: "Cancellation not allowed" });
+    if (order.createdAt !== today) {
+        return res.status(400).json({
+            message: "Cancellation allowed only on order creation date"
+        });
+    }
 
+    // Cancel order and restore stock
     order.status = "cancelled";
-
     const product = db.products.find(p => p.id === order.productId);
     product.stock += order.quantity;
 
     writeDB(db);
     res.json({ message: "Order cancelled successfully" });
 });
+
 
 /* 4️⃣ Change Order Status */
 router.patch("/change-status/:orderId", (req, res) => {
