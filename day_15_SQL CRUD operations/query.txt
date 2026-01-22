@@ -1,0 +1,104 @@
+1.  CREATE TABLE students (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    age INTEGER,
+    course TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+ 
+output - Success. No rows returned
+
+2. INSERT INTO students (name, email, age, course)
+VALUES
+('Amit Sharma', 'amit.sharma@gmail.com', 22, 'Data Engineering'),
+('Neha Verma', 'neha.verma@gmail.com', 21, 'Web Development'),
+('Rohit Singh', 'rohit.singh@gmail.com', 23, 'Data Engineering'),
+('Priya Gupta', 'priya.gupta@gmail.com', 20, 'Machine Learning'),
+('Ankit Patel', 'ankit.patel@gmail.com', 19, 'Web Development'),
+('Sneha Rao', 'sneha.rao@gmail.com', 24, 'Data Science'),
+('Karan Mehta', 'karan.mehta@gmail.com', 21, 'Machine Learning');
+
+output - Success. No rows returned
+
+3.1 SELECT * FROM students;
+
+output - 
+id	name		email			age	course			created_at
+1	Amit Sharma	amit.sharma@gmail.com	22	Data Engineering	43:41.9
+2	Neha Verma	neha.verma@gmail.com	21	Web Development		43:41.9
+3	Rohit Singh	rohit.singh@gmail.com	23	Data Engineering	43:41.9
+4	Priya Gupta	priya.gupta@gmail.com	20	Machine Learning	43:41.9
+5	Ankit Patel	ankit.patel@gmail.com	19	Web Development		43:41.9
+6	Sneha Rao	sneha.rao@gmail.com	24	Data Science		43:41.9
+7	Karan Mehta	karan.mehta@gmail.com	21	Machine Learning	43:41.9
+
+3.2 SELECT * FROM students
+WHERE age > 20;
+
+output-
+
+id	name		email			age	course			created_at
+1	Amit Sharma	amit.sharma@gmail.com	22	Data Engineering	43:41.9
+2	Neha Verma	neha.verma@gmail.com	21	Web Development		43:41.9
+3	Rohit Singh	rohit.singh@gmail.com	23	Data Engineering	43:41.9
+6	Sneha Rao	sneha.rao@gmail.com	24	Data Science		43:41.9
+7	Karan Mehta	karan.mehta@gmail.com	21	Machine Learning	43:41.9
+
+
+3.3 SELECT name, email FROM students;
+
+output-
+name		email
+Amit Sharma	amit.sharma@gmail.com
+Neha Verma	neha.verma@gmail.com
+Rohit Singh	rohit.singh@gmail.com
+Priya Gupta	priya.gupta@gmail.com
+Ankit Patel	ankit.patel@gmail.com
+Sneha Rao	sneha.rao@gmail.com
+Karan Mehta	karan.mehta@gmail.com
+
+3.4 SELECT * FROM students
+WHERE course = 'Data Engineering';
+
+output - 
+
+id	name		email		age		course			created_at
+1	Amit Sharma	amit.sharma@gmail.com	22	Data Engineering	43:41.9
+3	Rohit Singh	rohit.singh@gmail.com	23	Data Engineering	43:41.9
+
+
+4.1 UPDATE students
+SET age = 25
+WHERE name = 'Amit Sharma';
+
+output - Success. No rows returned
+
+4.2 UPDATE students
+SET course = 'Full Stack Development'
+WHERE course = 'Web Development';
+
+output - Success. No rows returned
+
+
+5.1 DELETE FROM students
+WHERE id = 5;
+
+output - Success. No rows returned
+
+5.2 DELETE FROM students
+WHERE age < 21;
+
+output - Success. No rows returned
+
+SELECT * FROM students;
+
+output - 
+id	name		email			age	course			created_at
+3	Rohit Singh	rohit.singh@gmail.com	23	Data Engineering	43:41.9
+6	Sneha Rao	sneha.rao@gmail.com	24	Data Science		43:41.9
+7	Karan Mehta	karan.mehta@gmail.com	21	Machine Learning	43:41.9
+1	Amit Sharma	amit.sharma@gmail.com	25	Data Engineering	43:41.9
+2	Neha Verma	neha.verma@gmail.com	21	Full Stack Development	43:41.9
+
+
