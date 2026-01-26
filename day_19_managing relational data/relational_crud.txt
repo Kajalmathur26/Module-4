@@ -1,0 +1,166 @@
+1.
+Table-1:users
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+output: Success. No rows returned
+
+Table-2: orders
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    amount INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+output: Success. No rows returned
+
+2.Insert Data
+2.1
+INSERT INTO users (name, email) VALUES
+('Amit Sharma', 'amit@gmail.com'),
+('Neha Verma', 'neha@gmail.com'),
+('Rohit Singh', 'rohit@gmail.com'),
+('Priya Mehta', 'priya@gmail.com'),
+('Karan Patel', 'karan@gmail.com');
+
+output: Success. No rows returned
+
+2.2
+INSERT INTO orders (user_id, amount, status) VALUES
+(1, 1200, 'placed'),
+(1, 800, 'delivered'),
+(1, 450, 'cancelled'),
+(2, 2200, 'placed'),
+(2, 1500, 'delivered'),
+(3, 3000, 'placed'),
+(4, 500, 'placed'),
+(4, 700, 'delivered'),
+(5, 900, 'placed');
+
+output: Success. No rows returned
+
+3.Read Data (Relational Reads)
+3.1
+SELECT * FROM users;
+
+output: 
+| id | name        | email           | created_at                 |
+| -- | ----------- | --------------- | -------------------------- |
+| 1  | Amit Sharma | amit@gmail.com  | 2026-01-26 14:56:11.353127 |
+| 2  | Neha Verma  | neha@gmail.com  | 2026-01-26 14:56:11.353127 |
+| 3  | Rohit Singh | rohit@gmail.com | 2026-01-26 14:56:11.353127 |
+| 4  | Priya Mehta | priya@gmail.com | 2026-01-26 14:56:11.353127 |
+| 5  | Karan Patel | karan@gmail.com | 2026-01-26 14:56:11.353127 |
+
+3.2
+SELECT * FROM orders;
+
+output:
+| id | user_id | amount | status    | created_at                 |
+| -- | ------- | ------ | --------- | -------------------------- |
+| 1  | 1       | 1200   | placed    | 2026-01-26 17:04:27.657505 |
+| 2  | 1       | 800    | delivered | 2026-01-26 17:04:27.657505 |
+| 3  | 1       | 450    | cancelled | 2026-01-26 17:04:27.657505 |
+| 4  | 2       | 2200   | placed    | 2026-01-26 17:04:27.657505 |
+| 5  | 2       | 1500   | delivered | 2026-01-26 17:04:27.657505 |
+| 6  | 3       | 3000   | placed    | 2026-01-26 17:04:27.657505 |
+| 7  | 4       | 500    | placed    | 2026-01-26 17:04:27.657505 |
+| 8  | 4       | 700    | delivered | 2026-01-26 17:04:27.657505 |
+| 9  | 5       | 900    | placed    | 2026-01-26 17:04:27.657505 |
+
+3.3
+SELECT * FROM orders
+WHERE user_id = 1;
+
+ output:
+| id | user_id | amount | status    | created_at                 |
+| -- | ------- | ------ | --------- | -------------------------- |
+| 1  | 1       | 1200   | placed    | 2026-01-26 17:04:27.657505 |
+| 2  | 1       | 800    | delivered | 2026-01-26 17:04:27.657505 |
+| 3  | 1       | 450    | cancelled | 2026-01-26 17:04:27.657505 |
+
+3.4
+SELECT u.id, u.name, COUNT(o.id) AS total_orders
+FROM users u
+JOIN orders o ON u.id = o.user_id
+GROUP BY u.id, u.name
+HAVING COUNT(o.id) > 1;
+
+output:
+| id | name        | total_orders |
+| -- | ----------- | ------------ |
+| 4  | Priya Mehta | 2            |
+| 2  | Neha Verma  | 2            |
+| 1  | Amit Sharma | 3            |
+
+3.5
+SELECT u.id, u.name, SUM(o.amount) AS total_amount
+FROM users u
+JOIN orders o ON u.id = o.user_id
+GROUP BY u.id, u.name;
+
+output:
+| id | name        | total_amount |
+| -- | ----------- | ------------ |
+| 4  | Priya Mehta | 1200         |
+| 2  | Neha Verma  | 3700         |
+| 3  | Rohit Singh | 3000         |
+| 5  | Karan Patel | 900          |
+| 1  | Amit Sharma | 2450         |
+
+4.Update Data
+4.1
+UPDATE users
+SET email = 'rohit.singh@gmail.com'
+WHERE id = 3;
+
+output: Success. No rows returned
+
+4.2
+UPDATE orders
+SET status = 'delivered'
+WHERE user_id = 2;
+
+output: Success. No rows returned
+
+4.3
+UPDATE orders
+SET amount = 3200
+WHERE id = 6;
+
+output: Success. No rows returned
+
+5.Delete Data
+5.1
+DELETE FROM orders
+WHERE id = 9;
+
+output: Success. No rows returned
+
+5.2
+DELETE FROM orders
+WHERE user_id = 4;
+
+output: Success. No rows returned
+
+5.3
+DELETE FROM users
+WHERE id = 1;
+
+output:  Error: Failed to run sql query: ERROR: 23503: update or delete on table "users" violates foreign key constraint "orders_user_id_fkey" on table "orders" DETAIL: Key (id)=(1) is still referenced from table "orders".
+
+6.Conceptual Question
+
+--Why should orders not be stored inside the users table?
+-- Because one user can have multiple orders (one-to-many).
+-- Storing orders in users breaks normalization.
+-- It causes data redundancy and update anomalies.
+-- Separate tables improve scalability and data integrity.
+-- Foreign keys maintain proper relationships.
