@@ -1,14 +1,30 @@
 # Authorization-Based TODO App
 
-## Setup
-1. npm install
-2. create .env file
-3. npm run dev
+## Tech Stack
+- Node.js
+- Express
+- Supabase
+- JWT Authentication
+- bcrypt
 
-## API Endpoints
-POST /api/signup
-POST /api/login
-POST /api/todos
-GET /api/todos
-PUT /api/todos/:id
-DELETE /api/todos/:id
+## Setup
+1. Create folder.
+2. Run `npm install`
+3. Create `.env` using `.env.example`
+4. Run `npm run dev`
+
+## APIs
+
+### Auth
+- POST /signup
+- POST /login
+
+### Todos (Protected)
+- POST /todos
+- GET /todos
+- PUT /todos/:id
+- DELETE /todos/:id
+
+## Authorization
+- JWT token required in header:
+Authorization: Bearer <token>
